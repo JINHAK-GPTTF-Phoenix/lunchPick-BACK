@@ -11,6 +11,6 @@ async function bootstrap() {
   // 모든 출처 허용
   app.enableCors();
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(3000);
 }
 bootstrap();

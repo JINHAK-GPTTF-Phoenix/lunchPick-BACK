@@ -1,10 +1,20 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { GreetingController } from './presentation/controllers/greeting.controller';
+import { GreetingService } from './application/services/greeting.service';
+import { GreetingRepository } from './infrastructure/adapters/greeting.repository';
 
 @Module({
   imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [GreetingController],
+  providers: [
+    {
+      provide: 'GREETING_USE_CASE',
+      useClass: GreetingService,
+    },
+    {
+      provide: 'GREETING_PORT',
+      useClass: GreetingRepository,
+    },
+  ],
 })
 export class AppModule {}
