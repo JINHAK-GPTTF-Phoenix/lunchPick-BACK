@@ -1,21 +1,34 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
+import { Logger } from '@nestjs/common';
 
-import * as dotenv from 'dotenv';
+async function setupCors(app, configService: ConfigService) {
+  const corsConfig = configService.get('cors');
+  const frontendUrl = configService.get('frontend.url');
 
-dotenv.config();
+  app.enableCors({
+    origin: frontendUrl,
+    credentials: corsConfig.credentials,
+    methods: corsConfig.allowedMethods,
+    allowedHeaders: corsConfig.allowedHeaders,
+  });
+}
 
 async function bootstrap() {
+  const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
+  
+  const configService = app.get(ConfigService);
+  const port = configService.get('port');
 
-  // CORS 설정 추가
-  app.enableCors({
-    origin: 'http://localhost:3000', // 프론트엔드 주소
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  });
+  // CORS 설정
+  await setupCors(app, configService);
 
-  await app.listen(8080);
+  await app.listen(port);
+  logger.log(`Application is running on port ${port}`);
 }
-bootstrap();
+
+bootstrap().catch((error) => {
+  new Logger('Bootstrap').error('Failed to start application', error);
+});
