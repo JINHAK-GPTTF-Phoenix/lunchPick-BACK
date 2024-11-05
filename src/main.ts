@@ -10,7 +10,7 @@ async function bootstrap() {
 
   // CORS 설정 추가
   app.enableCors({
-    origin: true, // 모든 도메인 허용
+    origin: 'http://localhost:3000', // 프론트엔드 주소
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
