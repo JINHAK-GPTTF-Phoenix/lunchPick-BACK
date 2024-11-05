@@ -1,19 +1,19 @@
 import { Module } from '@nestjs/common';
-import { GreetingController } from './presentation/controllers/greeting.controller';
-import { GreetingService } from './application/services/greeting.service';
-import { GreetingRepository } from './infrastructure/adapters/greeting.repository';
+import { RestaurantController } from './presentation/controllers/restaurant.controller';
+import { RestaurantService } from './application/services/restaurant.service';
+import { RestaurantRepository } from './infrastructure/adapters/restaurant.repository';
 
 @Module({
   imports: [],
-  controllers: [GreetingController],
+  controllers: [RestaurantController],
   providers: [
     {
-      provide: 'GREETING_USE_CASE',
-      useClass: GreetingService,
+      provide: 'RESTAURANT_USE_CASE',
+      useClass: RestaurantService,
     },
     {
-      provide: 'GREETING_PORT',
-      useClass: GreetingRepository,
+      provide: 'RESTAURANT_PORT',
+      useClass: RestaurantRepository,
     },
   ],
 })

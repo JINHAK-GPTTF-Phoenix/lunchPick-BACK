@@ -8,9 +8,13 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 모든 출처 허용
-  app.enableCors();
+  // CORS 설정 추가
+  app.enableCors({
+    origin: 'http://localhost:8080', // 클라이언트 서버 주소
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
 
-  await app.listen(3000);
+  await app.listen(8080);
 }
 bootstrap();
