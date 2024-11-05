@@ -18,5 +18,9 @@ describe('AppController', () => {
     it('should return "Hello World!"', () => {
       expect(appController.getHello()).toBe('Hello World!');
     });
+
+    it('should return "안녕"', () => {
+      expect(appController.getKoreanHello()).toBe('안녕');
+    });
   });
 });
