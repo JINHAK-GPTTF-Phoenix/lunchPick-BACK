@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from './config/configuration';
+import { Restaurant } from './core/domain/restaurant.entity';
 import { RestaurantController } from './presentation/controllers/restaurant.controller';
 import { RestaurantService } from './application/services/restaurant.service';
 import { RestaurantRepository } from './infrastructure/adapters/restaurant.repository';
@@ -11,6 +13,14 @@ import { RestaurantRepository } from './infrastructure/adapters/restaurant.repos
       isGlobal: true,
       load: [configuration],
     }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        ...configService.get('database'),
+      }),
+      inject: [ConfigService],
+    }),
+    TypeOrmModule.forFeature([Restaurant]),
   ],
   controllers: [RestaurantController],
   providers: [

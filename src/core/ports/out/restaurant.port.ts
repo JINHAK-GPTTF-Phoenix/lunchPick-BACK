@@ -1,5 +1,6 @@
 import { Restaurant } from '../../domain/restaurant.entity';
+import { SearchRestaurantQuery } from '../../dto/search-restaurant.query';
 
 export interface RestaurantPort {
-  findByKeyword(keyword: string): Promise<Restaurant[]>;
+  findByKeyword(query: SearchRestaurantQuery): Promise<Restaurant[]>;
 }
